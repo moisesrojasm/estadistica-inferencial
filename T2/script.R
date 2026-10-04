@@ -82,3 +82,40 @@ hist(masa,
      ylab = "Densidad")
 
 
+# Parte 3: CDF de la poblacióon y ECDF de una muestra
+F_pob <- ecdf(masa)
+
+set.seed(123)
+
+muestra_60 <- sample(masa, size = 60, replace = FALSE)
+
+Fn <- ecdf(muestra_60)
+
+# 1. Grafique F_pob y Fn en los mismos ejes
+plot(F_pob, 
+     main = "Comparación de CDF Poblacional vs ECDF Muestral (n=60)", 
+     xlab = "Masa Corporal (g)", 
+     ylab = "Probabilidad Acumulada",
+     col = "blue",
+     lwd = 2)     
+
+plot(Fn, 
+     add = TRUE, 
+     col = "red",  
+     lwd = 2, 
+     lty = 2) 
+
+legend("bottomright", 
+       legend = c("CDF Población", "ECDF Muestral (n=60)"), 
+       col = c("blue", "red"), 
+       lty = c(1, 2), 
+       lwd = 2)
+
+# 2. Calcule F_poblacion(4000) y Fn(4000).
+F_pob_4000 <- F_pob(4000)
+Fn_4000 <- Fn(4000)
+
+print(paste("Probabilidad Poblacional F(4000):", F_pob_4000))
+print(paste("Probabilidad Muestral Fn(4000):", Fn_4000))
+
+
