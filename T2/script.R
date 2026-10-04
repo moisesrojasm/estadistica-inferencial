@@ -1,3 +1,5 @@
+# Diego Moisés Rojas Mata
+
 library(tidyverse)
 
 penguins <- read.csv("penguins.csv") 
@@ -118,4 +120,43 @@ Fn_4000 <- Fn(4000)
 print(paste("Probabilidad Poblacional F(4000):", F_pob_4000))
 print(paste("Probabilidad Muestral Fn(4000):", Fn_4000))
 
+
+# Parte 4: Generación mediante la función cuantil empírica
+set.seed(123) 
+
+u <- runif(n = 100, min = 0, max = 1)
+
+# type = 1 fuerza a R a usar la inversa exacta (función escalonada) de la ECDF
+muestra_generada <- quantile(
+  masa, 
+  probs = u, 
+  type = 1, 
+  names = FALSE
+)
+
+# 1. Comprobar que los valores generados pertenecen al conjunto original
+comprobacion <- all(muestra_generada %in% masa)
+print(paste("¿Todos los valores generados pertenecen a la población original?:", comprobacion))
+
+# 2. Compare la media poblacional con la media de la muestra generada
+media_pob <- mean(masa)
+media_gen <- mean(muestra_generada)
+print(paste("Media Poblacional:", media_pob))
+print(paste("Media Muestra Generada:", media_gen))
+
+# 3. Construya la ECDF de la muestra generada
+Fn_generada <- ecdf(muestra_generada)
+
+plot(Fn_generada, 
+     add = TRUE, 
+     col = "green", 
+     lwd = 2, 
+     lty = 3)
+
+
+legend("bottomright", 
+       legend = c("CDF Población", "ECDF (n=60)", "ECDF Generada (n=100)"), 
+       col = c("blue", "red", "green"), 
+       lty = c(1, 2, 3), 
+       lwd = 2)
 
