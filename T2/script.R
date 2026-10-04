@@ -50,3 +50,35 @@ barplot(height = tabla_dist$PMF,
 
 
 # Parte 2: Representación de una variable continua
+masa <- datos$body_mass_g
+
+# 1. Calcule P(3800 <= X <= 4200)
+prob_1 <- mean(masa >= 3800 & masa <= 4200)
+print(paste("Probabilidad original:", prob_1))
+
+# 2. Media y varianza poblacionales
+media_pob <- mean(masa)
+
+n_pob <- length(masa)
+var_pob <- var(masa) * (n_pob - 1) / n_pob
+
+print(paste("Media poblacional:", media_pob))
+print(paste("Varianza poblacional:", var_pob))
+
+# 3. Normalizar evento y verificar que la prob sea la misma
+masa_01 <- (masa - min(masa)) / (max(masa) - min(masa))
+lim_inf_01 <- (3800 - min(masa)) / (max(masa) - min(masa))
+lim_sup_01 <- (4200 - min(masa)) / (max(masa) - min(masa))
+
+prob_01 <- mean(masa_01 >= lim_inf_01 & masa_01 <= lim_sup_01)
+print(paste("Probabilidad normalizada:", prob_01))
+
+# 4. Histograma normalizado con 12 intérvalos
+hist(masa,
+     breaks = 12,
+     probability = TRUE,
+     main = "Histograma de probabilidad (masa corporal)",
+     xlab = "Masa Corporal (g)",
+     ylab = "Densidad")
+
+
